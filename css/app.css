@@ -612,6 +612,21 @@ label.field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; 
 .phase-bar-row .track { flex: 1; height: 8px; background: #e7e5e4; border-radius: 99px; overflow: hidden; }
 .phase-bar-row .track > span { display: block; height: 100%; background: var(--bar); }
 .phase-bar-row .pct { width: 64px; font-size: 12px; color: var(--muted); text-align: right; }
+
+.asset-link {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.pill.asset-kind {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  color: #334155;
+  white-space: normal;
+  text-align: left;
+  max-width: 140px;
+}
 .view-only-note {
   font-size: 12px;
   color: var(--muted);
