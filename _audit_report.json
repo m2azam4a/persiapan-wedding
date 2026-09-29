@@ -1,0 +1,369 @@
+{
+  "totalTasks": 160,
+  "ok": 7,
+  "warn": 40,
+  "fail": 0,
+  "weakAlignList": [],
+  "sharedMidExamples": [
+    {
+      "n": 5,
+      "ids": [
+        "A08",
+        "B07",
+        "C06",
+        "H03",
+        "I09"
+      ],
+      "preview": "Kumpulkan bahan keputusan ke 1 folder (harga, desain, risiko, opsi A/B).|Buat ringkasan 5–10 baris: apa yang diputuskan "
+    },
+    {
+      "n": 4,
+      "ids": [
+        "B02",
+        "D03",
+        "D04",
+        "D05"
+      ],
+      "preview": "Buat daftar lokasi kandidat (nama, alamat, kontak, kapasitas, harga sewa kasar).|Telepon/WA dulu: cek ketersediaan tangg"
+    },
+    {
+      "n": 7,
+      "ids": [
+        "B04",
+        "J04",
+        "J05",
+        "J09",
+        "L06",
+        "L07",
+        "M04"
+      ],
+      "preview": "Buat dokumen 1 halaman: judul “Kalau terjadi masalah”.|Isi tabel kontak: nama | peran | nomor | cadangan.|Tulis 4–6 sken"
+    },
+    {
+      "n": 6,
+      "ids": [
+        "B05",
+        "D06",
+        "E26",
+        "K02",
+        "N03",
+        "N04"
+      ],
+      "preview": "Buka kontrak, cari jadwal bayar yang relevan dengan pekerjaan ini.|Cek nomor rekening resmi vendor (cocokkan dengan kont"
+    },
+    {
+      "n": 3,
+      "ids": [
+        "C01",
+        "C02",
+        "G01"
+      ],
+      "preview": "Kumpulkan 15–30 foto referensi (Pinterest/IG) ke 1 album.|Pilih 1 kata suasana: khidmat / hangat / garden / modern, dll."
+    },
+    {
+      "n": 6,
+      "ids": [
+        "C03",
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "M10"
+      ],
+      "preview": "Buka template tabel: Jam | Kegiatan | Siapa pegang | Butuh mic/musik | Catatan.|Isi dari paling pagi (bersiap) sampai ac"
+    },
+    {
+      "n": 10,
+      "ids": [
+        "C04",
+        "F01",
+        "F03",
+        "F12",
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "preview": "Buka 1 file master daftar tamu (jangan copy ke banyak file).|Pastikan kolom ada: nama, kategori (VIP/keluarga/umum), jum"
+    },
+    {
+      "n": 8,
+      "ids": [
+        "C05",
+        "E04",
+        "I08",
+        "J03",
+        "K01",
+        "K07",
+        "L05",
+        "N01"
+      ],
+      "preview": "Tentukan tanggal & jam meeting (cek dulu kesediaan orang penting).|Buat undangan WA/kalender berisi: link Zoom/lokasi, d"
+    }
+  ],
+  "topHasil": {
+    "count": 113,
+    "text": "Bukti kerja (file/foto/chat) + status di Jadwal sudah diubah + orang terkait dikabari."
+  },
+  "topSelesai": {
+    "count": 160,
+    "text": "Semua langkah penting sudah dicentang, bukti tersimpan, dan status di Jadwal = Selesai (atau Terhambat dengan alasan jelas)."
+  },
+  "topHindari": {
+    "count": 160,
+    "text": "Menandai Selesai tanpa bukti; mengerjakan sendirian tanpa kabari penanggung jawab; melewatkan pekerjaan yang harus selesai sebelumnya tanpa izin."
+  },
+  "samplesP0": [
+    {
+      "id": "A01",
+      "wbs": "1.1",
+      "name": "Kickoff keluarga inti + visi pasangan",
+      "esensi": "Rapat pertama keluarga inti: sepakati visi acara, gaya kasar, dan siapa yang ikut putuskan.",
+      "konteks": "Bagian paling awal. Tujuannya supaya pasangan dan keluarga sepakat dulu, sebelum banyak belanja."
+    },
+    {
+      "id": "A02",
+      "wbs": "1.2",
+      "name": "Definisikan scope acara (akad/resepsi/pre-event)",
+      "esensi": "Tulis daftar acara yang benar-benar diurus (akad, resepsi, pre-event, dll) supaya scope jelas.",
+      "konteks": "Bagian paling awal. Tujuannya supaya pasangan dan keluarga sepakat dulu, sebelum banyak belanja."
+    },
+    {
+      "id": "A03",
+      "wbs": "1.3",
+      "name": "Susun RACI keluarga (siapa putuskan apa)",
+      "esensi": "Buat tabel siapa mengerjakan, siapa putuskan final, dan siapa hanya dikabari — biar tidak bentrok.",
+      "konteks": "Bagian paling awal. Tujuannya supaya pasangan dan keluarga sepakat dulu, sebelum banyak belanja."
+    },
+    {
+      "id": "A04",
+      "wbs": "1.4",
+      "name": "Buat project charter & decision log",
+      "esensi": "Ringkas aturan proyek + catatan keputusan penting di satu tempat yang semua bisa baca.",
+      "konteks": "Bagian paling awal. Tujuannya supaya pasangan dan keluarga sepakat dulu, sebelum banyak belanja."
+    },
+    {
+      "id": "A05",
+      "wbs": "1.5",
+      "name": "Setup tools (drive, WA grup, sheet master)",
+      "esensi": "Siapkan folder Drive, grup WA, dan sheet master supaya semua file/kontak tidak berceceran.",
+      "konteks": "Bagian paling awal. Tujuannya supaya pasangan dan keluarga sepakat dulu, sebelum banyak belanja."
+    },
+    {
+      "id": "A06",
+      "wbs": "1.6",
+      "name": "Risk register awal + assumptions log",
+      "esensi": "Catat risiko & asumsi awal (misalnya hujan, budget molor) supaya bisa diantisipasi.",
+      "konteks": "Bagian paling awal. Tujuannya supaya pasangan dan keluarga sepakat dulu, sebelum banyak belanja."
+    },
+    {
+      "id": "A07",
+      "wbs": "1.7",
+      "name": "Stakeholder map (kedua keluarga + tokoh)",
+      "esensi": "Petakan orang penting di kedua keluarga + tokoh yang harus dilibatkan/diberi kabar.",
+      "konteks": "Bagian paling awal. Tujuannya supaya pasangan dan keluarga sepakat dulu, sebelum banyak belanja."
+    },
+    {
+      "id": "A08",
+      "wbs": "1.8",
+      "name": "Gate review: go/no-go planning formal",
+      "esensi": "Cek apakah perencanaan awal sudah cukup untuk lanjut ke tahap budget (go/no-go).",
+      "konteks": "Bagian paling awal. Tujuannya supaya pasangan dan keluarga sepakat dulu, sebelum banyak belanja."
+    }
+  ],
+  "report": {
+    "ok": [
+      {
+        "c": "coverage",
+        "m": "Semua 160 task punya definisi"
+      },
+      {
+        "c": "field",
+        "m": "Field wajib lengkap di semua task"
+      },
+      {
+        "c": "esensi",
+        "m": "Esensi unik per task, beda dari konteks fase, tidak generik"
+      },
+      {
+        "c": "align",
+        "m": "Esensi terikat ke nama task (heuristik OK)"
+      },
+      {
+        "c": "langkah",
+        "m": "Tidak ada langkah berurutan duplikat"
+      },
+      {
+        "c": "vendor",
+        "m": "Semua 28 vendor punya definisi"
+      },
+      {
+        "c": "modal",
+        "m": "Modal memisahkan bagian fase vs esensi pekerjaan vs langkah"
+      }
+    ],
+    "warn": [
+      {
+        "c": "esensi",
+        "m": "5.6 esensi pendek (35 char): Cicip makanan dan kunci menu final."
+      },
+      {
+        "c": "esensi",
+        "m": "5.14 esensi pendek (35 char): Kontrak MUA dan booking slot trial."
+      },
+      {
+        "c": "esensi",
+        "m": "5.20 esensi pendek (36 char): Kontrak stationery & situs undangan."
+      },
+      {
+        "c": "esensi",
+        "m": "6.2 esensi pendek (38 char): Pisahkan VIP, keluarga, dan tamu umum."
+      },
+      {
+        "c": "esensi",
+        "m": "6.4 esensi pendek (37 char): Kunci teks undangan + sistem QR RSVP."
+      },
+      {
+        "c": "esensi",
+        "m": "6.8 esensi pendek (37 char): Publish website/e-invite + form RSVP."
+      },
+      {
+        "c": "esensi",
+        "m": "6.10 esensi pendek (35 char): Bagikan undangan gelombang 1 (VIP)."
+      },
+      {
+        "c": "esensi",
+        "m": "6.11 esensi pendek (36 char): Bagikan undangan gelombang 2 (umum)."
+      },
+      {
+        "c": "esensi",
+        "m": "6.15 esensi pendek (33 char): Susun seating chart + place card."
+      },
+      {
+        "c": "esensi",
+        "m": "7.3 esensi pendek (30 char): Kontrak jahit/sewa + bayar DP."
+      },
+      {
+        "c": "esensi",
+        "m": "7.5 esensi pendek (37 char): Fitting 2: sesuaikan hasil perbaikan."
+      },
+      {
+        "c": "esensi",
+        "m": "7.7 esensi pendek (39 char): Urus busana keluarga inti & bridesmaid."
+      },
+      {
+        "c": "esensi",
+        "m": "7.8 esensi pendek (28 char): Trial makeup & hair pertama."
+      },
+      {
+        "c": "esensi",
+        "m": "7.12 esensi pendek (33 char): Eksekusi hari syuting prewedding."
+      },
+      {
+        "c": "esensi",
+        "m": "7.13 esensi pendek (37 char): Pilih foto prewed untuk undangan/LED."
+      },
+      {
+        "c": "esensi",
+        "m": "8.6 esensi pendek (36 char): Desain & pesan cake / dessert table."
+      },
+      {
+        "c": "esensi",
+        "m": "8.9 esensi pendek (38 char): Susun lighting plot & slot konten LED."
+      },
+      {
+        "c": "esensi",
+        "m": "9.6 esensi pendek (39 char): Siapkan konten LED: slideshow + ucapan."
+      },
+      {
+        "c": "esensi",
+        "m": "10.3 esensi pendek (38 char): Brief keamanan & pengaturan kerumunan."
+      },
+      {
+        "c": "esensi",
+        "m": "10.4 esensi pendek (36 char): Rencana medis/P3K standby di lokasi."
+      },
+      {
+        "c": "esensi",
+        "m": "11.1 esensi pendek (34 char): Rapat sync vendor #1 sekitar H-60."
+      },
+      {
+        "c": "esensi",
+        "m": "11.3 esensi pendek (34 char): Konfirmasi call time semua vendor."
+      },
+      {
+        "c": "esensi",
+        "m": "11.5 esensi pendek (33 char): Packing souvenir + quality check."
+      },
+      {
+        "c": "esensi",
+        "m": "11.6 esensi pendek (39 char): Cek ulang dokumen legal/KUA sudah siap."
+      },
+      {
+        "c": "esensi",
+        "m": "11.7 esensi pendek (34 char): Rapat sync vendor #2 sekitar H-30."
+      },
+      {
+        "c": "esensi",
+        "m": "12.1 esensi pendek (39 char): Kunci headcount final & PO ke katering."
+      },
+      {
+        "c": "esensi",
+        "m": "12.3 esensi pendek (30 char): Latihan on-site prosesi + cue."
+      },
+      {
+        "c": "esensi",
+        "m": "12.4 esensi pendek (25 char): Tech rehearsal sound/LED."
+      },
+      {
+        "c": "esensi",
+        "m": "12.5 esensi pendek (38 char): Brief singkat keluarga & petugas inti."
+      },
+      {
+        "c": "esensi",
+        "m": "13.1 esensi pendek (31 char): H-1: mulai load-in dekor & AVL."
+      },
+      {
+        "c": "esensi",
+        "m": "13.3 esensi pendek (39 char): H-1: pasang seating, signage, souvenir."
+      },
+      {
+        "c": "esensi",
+        "m": "13.6 esensi pendek (28 char): H0 pagi: foto getting ready."
+      },
+      {
+        "c": "esensi",
+        "m": "13.8 esensi pendek (37 char): H0: pelaksanaan akad + dokumen resmi."
+      },
+      {
+        "c": "esensi",
+        "m": "13.11 esensi pendek (37 char): H0: pantau layanan makanan & minuman."
+      },
+      {
+        "c": "esensi",
+        "m": "14.6 esensi pendek (34 char): Edit final album / highlight film."
+      },
+      {
+        "c": "langkah",
+        "m": "16 pola langkah tengah dipakai >=3 task (bisa template)"
+      },
+      {
+        "c": "hasil",
+        "m": "Hasil generik dipakai 113x: Bukti kerja (file/foto/chat) + status di Jadwal sudah diubah + orang terkait dik"
+      },
+      {
+        "c": "selesai",
+        "m": "Selesai-bila generik hampir semua (160)"
+      },
+      {
+        "c": "hindari",
+        "m": "Hindari generik hampir semua (160)"
+      },
+      {
+        "c": "bahasa",
+        "m": "57 task masih pakai istilah teknis di esensi/langkah (contoh: A03:RACI, A08:Gate, B03:CAPEX, B04:contingency, B05:cashflow, B07:Gate, C06:Gate, D05:scorecard)"
+      }
+    ],
+    "fail": []
+  }
+}

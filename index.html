@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Persiapan Nikah — Beranda</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="wp-shell">
+  <main class="wp-main" id="app">
+    <section class="wp-hero">
+      <h1 id="hero-title">Persiapan Pernikahan</h1>
+      <p id="hero-desc">
+        Halaman ini hanya menampilkan ringkasan. Untuk mengubah progres, buka halaman Jadwal.
+      </p>
+      <div class="row" style="margin-top:14px">
+        <a class="btn btn-primary" href="gantt.html">Buka Jadwal (ubah progres di sini)</a>
+        <a class="btn" href="settings.html">Pengaturan</a>
+      </div>
+    </section>
+
+    <div class="grid grid-4" id="stats"></div>
+    <div style="height:16px"></div>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2>Progres tiap bagian</h2>
+        <p class="view-only-note">Dihitung dari pekerjaan yang sudah ditandai Selesai di Jadwal.</p>
+        <div id="phase-bars"></div>
+      </section>
+      <section class="card">
+        <h2>Ringkasan status</h2>
+        <p class="view-only-note">Klik “Ubah di Jadwal” kalau mau mengedit — bukan di halaman ini.</p>
+        <div id="status-summary" class="grid" style="gap:8px"></div>
+      </section>
+    </div>
+
+    <div style="height:16px"></div>
+
+    <section class="card">
+      <h2>Daftar pekerjaan</h2>
+      <p class="view-only-note" id="list-hint">
+        Pilih tampilan di bawah. “Siap dikerjakan” = pekerjaan yang tidak menunggu yang lain (semua syaratnya sudah Selesai), dan ikut berubah otomatis kalau status di Jadwal diubah.
+      </p>
+      <div class="filter-tabs" id="list-filters" role="tablist">
+        <button type="button" data-filter="siap" class="active">Siap dikerjakan (paralel)</button>
+        <button type="button" data-filter="selesai">Selesai</button>
+        <button type="button" data-filter="semua">Semua</button>
+      </div>
+      <p class="filter-count" id="list-count"></p>
+      <div style="max-height:420px;overflow:auto">
+        <table class="table" id="task-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Kode</th>
+              <th>Pekerjaan</th>
+              <th>Jadwal</th>
+              <th>Vendor</th>
+              <th>Status</th>
+              <th>%</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div style="height:16px"></div>
+    <div class="grid grid-3">
+      <a class="link-card" href="gantt.html"><h3>Jadwal</h3><p>Satu-satunya tempat ubah progres & geser batang waktu.</p></a>
+      <a class="link-card" href="daily.html"><h3>Harian</h3><p>Lihat fokus tiap hari (H-120 sampai H+14).</p></a>
+      <a class="link-card" href="vendors.html"><h3>Vendor & Hubungan</h3><p>Lihat daftar vendor dan pekerjaan yang saling terkait.</p></a>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/definitions.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    WPNav.mountNav("home");
+    const state = WP.load();
+    window.__WP_STATE = state;
+    let listFilter = "siap";
+
+    function isReady(task, byId) {
+      // Bisa dikerjakan paralel / sekarang: semua yang harus selesai dulu sudah Selesai
+      const deps = task.deps || [];
+      if (!deps.length) return true;
+      return deps.every((id) => {
+        const p = byId[id];
+        return p && p.status === "done";
+      });
+    }
+
+    function filteredTasks() {
+      const byId = WP.taskMap(state.tasks);
+      if (listFilter === "semua") return state.tasks.slice();
+      if (listFilter === "selesai") return state.tasks.filter((t) => t.status === "done");
+      // siap: belum selesai, dan tidak terhalang dependency
+      return state.tasks.filter((t) => t.status !== "done" && isReady(t, byId));
+    }
+
+    function renderList() {
+      const show = filteredTasks();
+      const hints = {
+        siap: "Menampilkan pekerjaan yang sudah boleh dikerjakan sekarang (syarat sebelumnya sudah Selesai). Bisa dikerjakan berdampingan. Tombol ? = penjelasan.",
+        selesai: "Menampilkan pekerjaan yang sudah Selesai di Jadwal.",
+        semua: "Menampilkan semua pekerjaan. Ubah status hanya di halaman Jadwal.",
+      };
+      document.getElementById("list-hint").textContent = hints[listFilter];
+      document.getElementById("list-count").textContent = `Ditampilkan: ${show.length} dari ${state.tasks.length} pekerjaan`;
+
+      const tb = document.querySelector("#task-table tbody");
+      if (!show.length) {
+        tb.innerHTML = `<tr><td colspan="8" class="muted">Tidak ada pekerjaan di tampilan ini.</td></tr>`;
+        return;
+      }
+      tb.innerHTML = show
+        .map((t) => {
+          const byId = WP.taskMap(state.tasks);
+          const ready = isReady(t, byId);
+          const waiting = (t.deps || []).filter((id) => !(byId[id] && byId[id].status === "done"));
+          const waitNote =
+            listFilter === "semua" && t.status !== "done" && waiting.length
+              ? `<div class="small muted">Menunggu: ${waiting.join(", ")}</div>`
+              : "";
+          return `<tr>
+            <td><button type="button" class="btn-info" data-id="${t.id}">?</button></td>
+            <td>${t.wbs}${t.cp ? ' <span class="pill cp">Jangan telat</span>' : ""}${
+              ready && t.status !== "done" ? ' <span class="pill doing">Siap</span>' : ""
+            }</td>
+            <td>${t.name}${waitNote}</td>
+            <td class="small">${WP.labelDay(t.start)} → ${WP.labelDay(t.end)}</td>
+            <td>${t.vendor}</td>
+            <td><span class="pill ${t.status}">${WP.statusLabel(t.status)}</span></td>
+            <td>${t.progress}%</td>
+            <td><a class="btn" href="gantt.html?task=${t.id}">Ubah di Jadwal</a></td>
+          </tr>`;
+        })
+        .join("");
+
+      tb.querySelectorAll(".btn-info").forEach((btn) => {
+        btn.onclick = () => WPModal.openDefinition(btn.dataset.id);
+      });
+    }
+
+    function render() {
+      const s = WP.stats(state);
+      const pct = s.total ? Math.round((s.done / s.total) * 100) : 0;
+      const byId = WP.taskMap(state.tasks);
+      const readyN = state.tasks.filter((t) => t.status !== "done" && isReady(t, byId)).length;
+
+      document.getElementById("stats").innerHTML = `
+        <div class="card"><div class="stat-val">${pct}%</div><div class="stat-label">Sudah selesai secara keseluruhan</div>
+          <div class="progress-bar" style="margin-top:8px"><span style="width:${pct}%"></span></div></div>
+        <div class="card"><div class="stat-val">${s.done}/${s.total}</div><div class="stat-label">Pekerjaan selesai</div></div>
+        <div class="card"><div class="stat-val">${readyN}</div><div class="stat-label">Siap dikerjakan sekarang</div></div>
+        <div class="card"><div class="stat-val">${s.blocked}</div><div class="stat-label">Terhambat</div></div>
+      `;
+
+      const names = state.settings.coupleNames || "Pasangan";
+      const wd = state.settings.weddingDate ? ` · Hari pernikahan: ${state.settings.weddingDate}` : "";
+      document.getElementById("hero-title").textContent = `Ringkasan — ${names}`;
+      document.getElementById("hero-desc").innerHTML =
+        `Persiapan dari <strong>4 bulan sebelum</strong> sampai <strong>2 minggu sesudah</strong> (H-120 → H+14)${wd}. Ubah progres hanya di <a href="gantt.html">Jadwal</a>.`;
+
+      document.getElementById("phase-bars").innerHTML = Object.keys(state.phases)
+        .map((p) => {
+          const list = state.tasks.filter((t) => t.phase === p);
+          const done = list.filter((t) => t.status === "done").length;
+          const pct = list.length ? Math.round((done / list.length) * 100) : 0;
+          return `<div class="phase-bar-row">
+            <div class="name">${p} · ${state.phases[p]}</div>
+            <div class="track"><span style="width:${pct}%"></span></div>
+            <div class="pct">${done}/${list.length}</div>
+          </div>`;
+        })
+        .join("");
+
+      document.getElementById("status-summary").innerHTML = `
+        <div class="row"><span class="pill todo">Belum mulai</span> ${state.tasks.filter((t) => t.status === "todo").length}</div>
+        <div class="row"><span class="pill doing">Sedang dikerjakan</span> ${s.doing}</div>
+        <div class="row"><span class="pill done">Selesai</span> ${s.done}</div>
+        <div class="row"><span class="pill blocked">Terhambat</span> ${s.blocked}</div>
+        <div class="small muted" style="margin-top:8px">Siap dikerjakan (tidak terhalang): ${readyN} · Jangan sampai telat: ${s.cp}</div>
+      `;
+
+      document.querySelectorAll("#list-filters button").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.filter === listFilter);
+        const n =
+          btn.dataset.filter === "siap"
+            ? readyN
+            : btn.dataset.filter === "selesai"
+              ? s.done
+              : state.tasks.length;
+        const base =
+          btn.dataset.filter === "siap"
+            ? "Siap dikerjakan (paralel)"
+            : btn.dataset.filter === "selesai"
+              ? "Selesai"
+              : "Semua";
+        btn.textContent = `${base} · ${n}`;
+      });
+
+      renderList();
+    }
+
+    document.getElementById("list-filters").onclick = (e) => {
+      const btn = e.target.closest("button[data-filter]");
+      if (!btn) return;
+      listFilter = btn.dataset.filter;
+      render();
+    };
+
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Persiapan Nikah — Vendor</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="wp-shell">
+  <main class="wp-main">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <div>
+        <h1 style="margin:0;font-size:20px">Vendor & hubungan pekerjaan</h1>
+        <p class="muted small" style="margin:4px 0 0">
+          Hanya melihat. Angka status mengikuti halaman Jadwal.
+        </p>
+      </div>
+      <a class="btn btn-primary" href="gantt.html">Ubah di Jadwal</a>
+    </div>
+
+    <section class="card" style="margin-bottom:16px">
+      <h2>Daftar vendor</h2>
+      <p class="view-only-note">
+        Klik <strong>?</strong> untuk baca arti tiap vendor. “Internal” = dikerjakan keluarga sendiri, bukan jasa sewaan.
+      </p>
+      <p class="view-only-note">Tabel menampilkan jumlah pekerjaan per vendor dan berapa yang sudah selesai.</p>
+      <div style="overflow:auto;max-height:420px">
+        <table class="table" id="vendor-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Vendor</th>
+              <th>Apa artinya</th>
+              <th>Jumlah</th>
+              <th>Rentang waktu</th>
+              <th>Selesai</th>
+              <th>Sedang dikerjakan</th>
+              <th>Terhambat</th>
+              <th>%</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row" style="justify-content:space-between">
+        <h2 style="margin:0">Hubungan antar pekerjaan</h2>
+        <input type="search" id="dep-q" placeholder="Cari kode / nama…" style="min-width:220px" />
+      </div>
+      <p class="view-only-note">
+        Dibaca: pekerjaan kiri harus selesai dulu, baru lanjut ke kanan.
+        Tombol ? = penjelasan · “Jadwal” = ubah status.
+      </p>
+      <div style="overflow:auto;max-height:480px;margin-top:10px">
+        <table class="table" id="dep-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Harus selesai dulu</th>
+              <th>Statusnya</th>
+              <th>→</th>
+              <th>Lanjut ke</th>
+              <th>Nama pekerjaan</th>
+              <th>Statusnya</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/definitions.js"></script>
+  <script src="js/vendor-defs.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    WPNav.mountNav("vendors");
+    const state = WP.load();
+    window.__WP_STATE = state;
+
+    function vendorInfo(name) {
+      const d = (window.WP_VENDOR_DEFS || {})[name];
+      return (
+        d || {
+          singkat: "Jenis pihak terkait pekerjaan ini.",
+          detail: "Belum ada definisi khusus. Umumnya pihak yang terlibat dalam pekerjaan terkait nama ini.",
+        }
+      );
+    }
+
+    function openVendorDef(name) {
+      const d = vendorInfo(name);
+      // pakai modal yang sama pola dengan penjelasan task
+      let backdrop = document.getElementById("wp-vendor-modal");
+      if (!backdrop) {
+        backdrop = document.createElement("div");
+        backdrop.id = "wp-vendor-modal";
+        backdrop.className = "wp-modal-backdrop";
+        backdrop.innerHTML = `
+          <div class="wp-modal" role="dialog" aria-modal="true">
+            <header>
+              <div>
+                <div class="small muted">Definisi vendor</div>
+                <h2 id="wp-vendor-title"></h2>
+              </div>
+              <button type="button" class="btn" id="wp-vendor-close">Tutup</button>
+            </header>
+            <div id="wp-vendor-body"></div>
+          </div>`;
+        document.body.appendChild(backdrop);
+        backdrop.addEventListener("click", (e) => {
+          if (e.target === backdrop) backdrop.hidden = true;
+        });
+        backdrop.querySelector("#wp-vendor-close").onclick = () => {
+          backdrop.hidden = true;
+        };
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") backdrop.hidden = true;
+        });
+      }
+      backdrop.querySelector("#wp-vendor-title").textContent = name;
+      backdrop.querySelector("#wp-vendor-body").innerHTML = `
+        <div class="def-block"><h4>Singkat</h4><p>${d.singkat}</p></div>
+        <div class="def-block"><h4>Penjelasan</h4><p>${d.detail}</p></div>
+      `;
+      backdrop.hidden = false;
+    }
+
+    function renderVendors() {
+      const by = {};
+      state.tasks.forEach((t) => {
+        if (!by[t.vendor]) by[t.vendor] = [];
+        by[t.vendor].push(t);
+      });
+      document.querySelector("#vendor-table tbody").innerHTML = Object.keys(by)
+        .sort()
+        .map((v) => {
+          const list = by[v];
+          const start = Math.min(...list.map((t) => t.start));
+          const end = Math.max(...list.map((t) => t.end));
+          const done = list.filter((t) => t.status === "done").length;
+          const pct = Math.round((done / list.length) * 100);
+          const info = vendorInfo(v);
+          return `<tr>
+            <td><button type="button" class="btn-info btn-vendor" data-vendor="${v}">?</button></td>
+            <td><strong>${v}</strong></td>
+            <td class="small">${info.singkat}</td>
+            <td>${list.length}</td>
+            <td>${WP.labelDay(start)} → ${WP.labelDay(end)}</td>
+            <td>${done}</td>
+            <td>${list.filter((t) => t.status === "doing").length}</td>
+            <td>${list.filter((t) => t.status === "blocked").length}</td>
+            <td>${pct}%</td>
+          </tr>`;
+        })
+        .join("");
+
+      document.querySelectorAll(".btn-vendor").forEach((btn) => {
+        btn.onclick = () => openVendorDef(btn.dataset.vendor);
+      });
+    }
+
+    function renderDeps() {
+      const q = (document.getElementById("dep-q").value || "").toLowerCase();
+      const map = WP.taskMap(state.tasks);
+      const links = [];
+      state.tasks.forEach((t) => {
+        if (!t.deps || !t.deps.length) {
+          links.push({ pred: null, succ: t });
+          return;
+        }
+        t.deps.forEach((d) => links.push({ pred: map[d], succ: t }));
+      });
+      const filtered = links.filter((l) => {
+        if (!q) return true;
+        const blob = [l.pred && l.pred.id, l.pred && l.pred.name, l.succ.id, l.succ.name]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        return blob.includes(q);
+      });
+      document.querySelector("#dep-table tbody").innerHTML = filtered
+        .slice(0, 400)
+        .map((l) => {
+          const predCell = l.pred
+            ? `<td>${l.pred.id}</td><td><span class="pill ${l.pred.status}">${WP.statusLabel(l.pred.status)}</span></td>`
+            : `<td class="muted">(bisa mulai lebih dulu)</td><td class="muted">—</td>`;
+          return `<tr>
+            <td><button type="button" class="btn-info" data-id="${l.succ.id}">?</button></td>
+            ${predCell}
+            <td>→</td>
+            <td>${l.succ.id}</td>
+            <td>${l.succ.name}</td>
+            <td><span class="pill ${l.succ.status}">${WP.statusLabel(l.succ.status)}</span></td>
+            <td><a class="btn" href="gantt.html?task=${l.succ.id}">Jadwal</a></td>
+          </tr>`;
+        })
+        .join("");
+
+      document.querySelectorAll("#dep-table .btn-info").forEach((btn) => {
+        btn.onclick = () => WPModal.openDefinition(btn.dataset.id);
+      });
+    }
+
+    document.getElementById("dep-q").oninput = renderDeps;
+    renderVendors();
+    renderDeps();
+  </script>
+</body>
+</html>

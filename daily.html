@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Persiapan Nikah — Harian</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="wp-shell">
+  <main class="wp-main">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <div>
+        <h1 style="margin:0;font-size:20px">Fokus harian · H-120 sampai H+14</h1>
+        <p class="muted small" style="margin:4px 0 0">
+          Hanya melihat. Status pekerjaan diambil dari halaman Jadwal.
+        </p>
+      </div>
+      <a class="btn btn-primary" href="gantt.html">Ubah di Jadwal</a>
+    </div>
+
+    <div class="hub-banner">
+      Status resmi ada di Jadwal. Di sini Anda hanya melihat pekerjaan yang aktif tiap hari.
+      Centang kecil di bawah adalah catatan pribadi opsional.
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="row">
+        <label class="field">Dari hari
+          <input type="number" id="from" value="-14" min="-120" max="14" />
+        </label>
+        <label class="field">Sampai hari
+          <input type="number" id="to" value="7" min="-120" max="14" />
+        </label>
+        <button class="btn" type="button" id="jump-today">Hari ini</button>
+        <button class="btn" type="button" id="jump-h">Hari pernikahan</button>
+        <button class="btn" type="button" id="jump-h7">7 hari sebelum</button>
+        <button class="btn" type="button" id="jump-h30">30 hari sebelum</button>
+        <span class="small muted" id="daily-progress"></span>
+      </div>
+    </div>
+
+    <div id="list"></div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/definitions.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    WPNav.mountNav("daily");
+    let state = WP.load();
+    window.__WP_STATE = state;
+
+    function persistDailyOnly() {
+      WP.save(state);
+    }
+
+    function todayRel() {
+      if (!state.settings.weddingDate) return null;
+      const h = new Date(state.settings.weddingDate + "T12:00:00");
+      const now = new Date();
+      now.setHours(12, 0, 0, 0);
+      return Math.round((now - h) / 86400000);
+    }
+
+    function updateProgress() {
+      const done = state.tasks.filter((t) => t.status === "done").length;
+      document.getElementById("daily-progress").textContent =
+        `Dari Jadwal: ${done}/${state.tasks.length} pekerjaan selesai`;
+    }
+
+    function render() {
+      const from = Number(document.getElementById("from").value);
+      const to = Number(document.getElementById("to").value);
+      const today = todayRel();
+      const root = document.getElementById("list");
+      const days = state.daily.filter((d) => d.day >= from && d.day <= to);
+      root.innerHTML = days
+        .map((d) => {
+          const abs = WP.absDate(state.settings, d.day);
+          const activeTasks = state.tasks.filter((t) => t.start <= d.day && d.day < t.end);
+          const doneN = activeTasks.filter((t) => t.status === "done").length;
+          const cls = ["checklist-day", d.day === 0 ? "harih" : "", today === d.day ? "today" : ""].join(" ");
+          return `
+          <section class="${cls}" data-day="${d.day}" id="day-${d.day}">
+            <header>
+              <strong>${WP.labelDay(d.day)}${abs ? " · " + abs : ""}</strong>
+              <span class="small muted">Aktif hari ini: ${doneN}/${activeTasks.length} selesai</span>
+            </header>
+            <ul>
+              ${
+                activeTasks.length
+                  ? activeTasks
+                      .map(
+                        (t) => `<li>
+                          <button type="button" class="btn-info" data-id="${t.id}">?</button>
+                          <div style="flex:1">
+                            <div><strong>${t.wbs}</strong> ${t.name}</div>
+                            <div class="small muted">${t.vendor} · ${WP.labelDay(t.start)}→${WP.labelDay(t.end)}</div>
+                          </div>
+                          <span class="pill ${t.status}">${WP.statusLabel(t.status)}</span>
+                          <a class="btn" href="gantt.html?task=${t.id}">Jadwal</a>
+                        </li>`
+                      )
+                      .join("")
+                  : `<li><div class="muted">Tidak ada pekerjaan aktif hari ini (hari longgar).</div></li>`
+              }
+              ${d.items
+                .filter((it) => !it.taskId)
+                .map(
+                  (it) => `<li>
+                    <input type="checkbox" data-day="${d.day}" data-id="${it.id}" ${it.done ? "checked" : ""} />
+                    <div><div>${it.text}</div><div class="small muted">Catatan harian (opsional)</div></div>
+                  </li>`
+                )
+                .join("")}
+            </ul>
+          </section>`;
+        })
+        .join("");
+
+      root.querySelectorAll(".btn-info").forEach((btn) => {
+        btn.onclick = () => WPModal.openDefinition(btn.dataset.id);
+      });
+      root.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+        cb.onchange = () => {
+          const day = state.daily.find((x) => x.day === Number(cb.dataset.day));
+          const item = day.items.find((i) => i.id === cb.dataset.id);
+          item.done = cb.checked;
+          persistDailyOnly();
+          WP.toast("Catatan harian disimpan");
+        };
+      });
+      updateProgress();
+    }
+
+    function jump(day) {
+      document.getElementById("from").value = Math.max(-120, day - 3);
+      document.getElementById("to").value = Math.min(14, day + 7);
+      render();
+      setTimeout(() => {
+        const el = document.getElementById("day-" + day);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    }
+
+    document.getElementById("from").onchange = render;
+    document.getElementById("to").onchange = render;
+    document.getElementById("jump-h").onclick = () => jump(0);
+    document.getElementById("jump-h7").onclick = () => jump(-7);
+    document.getElementById("jump-h30").onclick = () => jump(-30);
+    document.getElementById("jump-today").onclick = () => {
+      const t = todayRel();
+      if (t == null) {
+        alert("Isi dulu tanggal hari pernikahan di Pengaturan, supaya 'Hari ini' bisa dihitung.");
+        return;
+      }
+      jump(Math.max(-120, Math.min(14, t)));
+    };
+
+    render();
+  </script>
+</body>
+</html>

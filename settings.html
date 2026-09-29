@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Persiapan Nikah — Pengaturan</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="wp-shell">
+  <main class="wp-main">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <div>
+        <h1 style="margin:0;font-size:20px">Pengaturan</h1>
+        <p class="muted small" style="margin:4px 0 0">
+          Atur tanggal hari pernikahan dan cara kerja jadwal. Progres tersimpan otomatis di browser ini.
+        </p>
+      </div>
+      <a class="btn" href="index.html">← Beranda</a>
+    </div>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2>Data acara</h2>
+        <div class="grid" style="gap:10px">
+          <label class="field">Nama pasangan
+            <input type="text" id="names" />
+          </label>
+          <label class="field">Tanggal hari pernikahan
+            <input type="date" id="wedding" />
+          </label>
+          <p class="small muted" id="range-hint"></p>
+          <label class="field row" style="flex-direction:row;align-items:center;gap:8px">
+            <input type="checkbox" id="auto" />
+            Kalau batang digeser, pekerjaan berikutnya ikut bergeser otomatis
+          </label>
+          <label class="field row" style="flex-direction:row;align-items:center;gap:8px">
+            <input type="checkbox" id="deps" />
+            Tampilkan garis penghubung antar pekerjaan di Jadwal
+          </label>
+          <button class="btn btn-primary" type="button" id="save">Simpan pengaturan</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Cadangan & reset</h2>
+        <p class="small muted">
+          Setiap perubahan di Jadwal otomatis tersimpan. Unduh cadangan supaya aman.
+          Muat cadangan untuk mengembalikan data. Reset menghapus semua progres di browser ini.
+        </p>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" type="button" id="export">Unduh cadangan</button>
+          <label class="btn" style="cursor:pointer;margin:0">
+            Muat cadangan
+            <input type="file" id="import" accept="application/json,.json" hidden />
+          </label>
+          <button class="btn btn-danger" type="button" id="reset">Kembalikan ke awal</button>
+        </div>
+        <p class="small muted" style="margin-top:12px" id="storage-info"></p>
+      </section>
+    </div>
+
+    <div style="height:16px"></div>
+
+    <section class="card">
+      <h2>Menu halaman</h2>
+      <p class="small muted">Cukup buka <code>index.html</code>, lalu pilih menu di atas.</p>
+      <div class="grid grid-2" style="margin-top:10px">
+        <a class="link-card" href="index.html"><h3>Beranda</h3><p>Ringkasan progres saja</p></a>
+        <a class="link-card" href="gantt.html"><h3>Jadwal</h3><p>Ubah progres + baca penjelasan (?)</p></a>
+        <a class="link-card" href="daily.html"><h3>Harian</h3><p>Lihat fokus tiap hari</p></a>
+        <a class="link-card" href="vendors.html"><h3>Vendor</h3><p>Lihat vendor & hubungan pekerjaan</p></a>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    WPNav.mountNav("settings");
+    let state = WP.load();
+    window.__WP_STATE = state;
+
+    function fill() {
+      document.getElementById("names").value = state.settings.coupleNames || "";
+      document.getElementById("wedding").value = state.settings.weddingDate || "";
+      document.getElementById("auto").checked = !!state.settings.autoReschedule;
+      document.getElementById("deps").checked = state.settings.showDeps !== false;
+      const start = WP.absDate(state.settings, -120);
+      const end = WP.absDate(state.settings, 14);
+      document.getElementById("range-hint").textContent = state.settings.weddingDate
+        ? `Kalender kerja: ${start} (H-120) sampai ${end} (H+14)`
+        : "Isi tanggal hari pernikahan supaya tanggal di Jadwal ikut muncul.";
+      try {
+        const raw = localStorage.getItem(WP.KEY) || "";
+        document.getElementById("storage-info").textContent =
+          `Data tersimpan di browser ini · ukuran sekitar ${raw.length.toLocaleString()} karakter`;
+      } catch {
+        document.getElementById("storage-info").textContent = "Penyimpanan browser tidak tersedia";
+      }
+    }
+
+    document.getElementById("save").onclick = () => {
+      state.settings.coupleNames = document.getElementById("names").value.trim() || "Pasangan";
+      state.settings.weddingDate = document.getElementById("wedding").value;
+      state.settings.autoReschedule = document.getElementById("auto").checked;
+      state.settings.showDeps = document.getElementById("deps").checked;
+      WP.save(state);
+      window.__WP_STATE = state;
+      fill();
+      WP.toast("Pengaturan disimpan");
+    };
+
+    document.getElementById("wedding").onchange = () => {
+      const tmp = { ...state.settings, weddingDate: document.getElementById("wedding").value };
+      const start = WP.absDate(tmp, -120);
+      const end = WP.absDate(tmp, 14);
+      document.getElementById("range-hint").textContent = tmp.weddingDate
+        ? `Pratinjau: ${start} sampai ${end}`
+        : "Isi tanggal hari pernikahan supaya tanggal di Jadwal ikut muncul.";
+    };
+
+    document.getElementById("export").onclick = () => {
+      const blob = new Blob([WP.exportJson(state)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "cadangan-persiapan-nikah.json";
+      a.click();
+    };
+
+    document.getElementById("import").onchange = async (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+      try {
+        state = WP.importJson(await f.text());
+        window.__WP_STATE = state;
+        fill();
+        WP.toast("Cadangan berhasil dimuat");
+      } catch (err) {
+        alert("Gagal memuat: " + err.message);
+      }
+    };
+
+    document.getElementById("reset").onclick = () => {
+      if (!confirm("Yakin kembalikan ke awal? Semua progres di browser ini hilang (kecuali Anda sudah unduh cadangan).")) return;
+      state = WP.reset();
+      window.__WP_STATE = state;
+      fill();
+      WP.toast("Sudah dikembalikan ke awal");
+    };
+
+    fill();
+  </script>
+</body>
+</html>
