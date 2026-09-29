@@ -651,6 +651,20 @@ label.field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; 
   padding: 8px;
   background: #f8fafc;
 }
+.asset-edit-row.is-editing {
+  border-color: var(--accent);
+  background: #fff7ed;
+}
+.asset-row-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.asset-row-actions .btn {
+  padding: 2px 8px;
+  font-size: 12px;
+}
 .asset-add-box {
   display: grid;
   gap: 8px;

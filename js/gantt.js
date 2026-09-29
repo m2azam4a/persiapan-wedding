@@ -304,12 +304,16 @@
       const succs = state.tasks.filter((x) => (x.deps || []).includes(t.id));
       if (!Array.isArray(t.assets)) t.assets = [];
       const assets = WP.normalizeAssets(t.assets);
-      const catChecks = WP.ASSET_CATEGORIES.map(
-        (c) =>
-          `<label class="asset-cat-check"><input type="checkbox" name="s-asset-cat" value="${c.id}" ${
-            c.id === "catatan" ? "checked" : ""
-          }/> ${c.label}</label>`
-      ).join("");
+
+      function catChecksHtml(selected) {
+        const sel = Array.isArray(selected) && selected.length ? selected : ["catatan"];
+        return WP.ASSET_CATEGORIES.map(
+          (c) =>
+            `<label class="asset-cat-check"><input type="checkbox" name="s-asset-cat" value="${c.id}" ${
+              sel.includes(c.id) ? "checked" : ""
+            }/> ${c.label}</label>`
+        ).join("");
+      }
 
       const assetsListHtml = assets.length
         ? assets
@@ -323,15 +327,18 @@
                     .map((c) => `<span class="pill asset-kind">${WP.assetCategoryLabel(c)}</span>`)
                     .join("")}
                 </div>
-                <div style="font-size:13px"><strong>${a.title}</strong></div>
-                ${a.detail ? `<div class="small muted">${a.detail}</div>` : ""}
+                <div style="font-size:13px"><strong></strong></div>
+                ${a.detail ? `<div class="small muted asset-detail-view"></div>` : ""}
                 ${
                   a.url
-                    ? `<a class="small asset-link" href="${a.url}" target="_blank" rel="noopener noreferrer" style="word-break:break-all">${a.url}</a>`
+                    ? `<a class="small asset-link" href="${a.url}" target="_blank" rel="noopener noreferrer" style="word-break:break-all"></a>`
                     : ""
                 }
               </div>
-              <button type="button" class="btn btn-ghost asset-del" data-asset-id="${a.id}" title="Hapus">✕</button>
+              <div class="asset-row-actions">
+                <button type="button" class="btn btn-ghost asset-edit" data-asset-id="${a.id}" title="Edit">Edit</button>
+                <button type="button" class="btn btn-ghost asset-del" data-asset-id="${a.id}" title="Hapus">Hapus</button>
+              </div>
             </div>
           </div>`
             )
@@ -373,7 +380,7 @@
             <input type="date" id="s-end-abs" value="${endAbs}" ${state.settings.weddingDate ? "" : "disabled"} />
           </label>
           <label class="field">Catatan bebas (opsional)
-            <textarea id="s-notes" rows="2">${t.notes || ""}</textarea>
+            <textarea id="s-notes" rows="2"></textarea>
           </label>
         </div>
 
@@ -381,13 +388,15 @@
           <h4 style="margin:14px 0 6px;font-size:13px">Evidence / aset monitoring</h4>
           <p class="small muted" style="margin:0 0 8px">
             Satu pekerjaan boleh banyak evidence. Tiap evidence: centang satu atau lebih label
-            (Catatan, WAG, Spreadsheet, Link Gdrive).
+            (Catatan, WAG, Spreadsheet, Link Gdrive). Klik <strong>Edit</strong> untuk ubah yang sudah ada.
           </p>
           <div id="s-assets-list" class="asset-edit-list">${assetsListHtml}</div>
-          <div class="asset-add-box">
+          <div class="asset-add-box" id="s-asset-form">
+            <div class="small" id="s-asset-form-mode" style="font-weight:600;margin-bottom:4px">Tambah evidence baru</div>
+            <input type="hidden" id="s-asset-edit-id" value="" />
             <div class="field">
               <span class="field-label">Label (boleh lebih dari satu)</span>
-              <div class="asset-cat-checks">${catChecks}</div>
+              <div class="asset-cat-checks" id="s-asset-cats">${catChecksHtml(["catatan"])}</div>
             </div>
             <label class="field">Judul singkat
               <input type="text" id="s-asset-title" placeholder="Contoh: Folder dokumentasi + grup WA" />
@@ -396,9 +405,12 @@
               <input type="url" id="s-asset-url" placeholder="https://drive.google.com/..." />
             </label>
             <label class="field">Keterangan (opsional)
-              <input type="text" id="s-asset-detail" placeholder="Contoh: Sudah ada / On progress" />
+              <textarea id="s-asset-detail" rows="2" placeholder="Contoh: Sudah ada / On progress"></textarea>
             </label>
-            <button class="btn" type="button" id="s-asset-add" style="width:100%">+ Tambah evidence</button>
+            <div class="row" style="gap:8px">
+              <button class="btn btn-primary" type="button" id="s-asset-save" style="flex:1">+ Tambah evidence</button>
+              <button class="btn btn-ghost" type="button" id="s-asset-cancel" hidden>Batal</button>
+            </div>
           </div>
         </div>
 
@@ -423,6 +435,23 @@
         <button class="btn btn-primary" type="button" id="s-apply">Simpan perubahan</button>
       `;
       side.querySelector("#s-status").value = t.status;
+      side.querySelector("#s-notes").value = t.notes || "";
+
+      // Isi teks evidence tanpa raw HTML injection
+      assets.forEach((a) => {
+        const row = side.querySelector(`.asset-edit-row[data-asset-id="${a.id}"]`);
+        if (!row) return;
+        const titleEl = row.querySelector("strong");
+        if (titleEl) titleEl.textContent = a.title || "";
+        const detailEl = row.querySelector(".asset-detail-view");
+        if (detailEl) detailEl.textContent = a.detail || "";
+        const linkEl = row.querySelector("a.asset-link");
+        if (linkEl) {
+          linkEl.href = a.url;
+          linkEl.textContent = a.url;
+        }
+      });
+
       const openHelp = () => WPModal.openDefinition(t.id);
       side.querySelector("#s-help").onclick = openHelp;
       side.querySelector("#s-help2").onclick = openHelp;
@@ -444,7 +473,36 @@
         markSelected(task);
       }
 
-      side.querySelector("#s-asset-add").onclick = () => {
+      function resetAssetForm() {
+        side.querySelector("#s-asset-edit-id").value = "";
+        side.querySelector("#s-asset-form-mode").textContent = "Tambah evidence baru";
+        side.querySelector("#s-asset-cats").innerHTML = catChecksHtml(["catatan"]);
+        side.querySelector("#s-asset-title").value = "";
+        side.querySelector("#s-asset-url").value = "";
+        side.querySelector("#s-asset-detail").value = "";
+        side.querySelector("#s-asset-save").textContent = "+ Tambah evidence";
+        side.querySelector("#s-asset-cancel").hidden = true;
+        side.querySelectorAll(".asset-edit-row").forEach((r) => r.classList.remove("is-editing"));
+      }
+
+      function fillAssetForm(asset) {
+        side.querySelector("#s-asset-edit-id").value = asset.id;
+        side.querySelector("#s-asset-form-mode").textContent = "Edit evidence";
+        side.querySelector("#s-asset-cats").innerHTML = catChecksHtml(asset.categories);
+        side.querySelector("#s-asset-title").value = asset.title || "";
+        side.querySelector("#s-asset-url").value = asset.url || "";
+        side.querySelector("#s-asset-detail").value = asset.detail || "";
+        side.querySelector("#s-asset-save").textContent = "Simpan perubahan evidence";
+        side.querySelector("#s-asset-cancel").hidden = false;
+        side.querySelectorAll(".asset-edit-row").forEach((r) => {
+          r.classList.toggle("is-editing", r.dataset.assetId === asset.id);
+        });
+        side.querySelector("#s-asset-form").scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+
+      side.querySelector("#s-asset-cancel").onclick = () => resetAssetForm();
+
+      side.querySelector("#s-asset-save").onclick = () => {
         const task = state.tasks.find((x) => x.id === t.id);
         const title = side.querySelector("#s-asset-title").value.trim();
         const url = side.querySelector("#s-asset-url").value.trim();
@@ -452,6 +510,7 @@
         const categories = Array.from(side.querySelectorAll('input[name="s-asset-cat"]:checked')).map(
           (el) => el.value
         );
+        const editId = side.querySelector("#s-asset-edit-id").value;
         if (!categories.length) {
           WP.toast("Centang minimal 1 label");
           return;
@@ -461,26 +520,47 @@
           return;
         }
         if (!Array.isArray(task.assets)) task.assets = [];
-        task.assets.push({
-          id: `asset-${Date.now()}`,
+        const payload = {
+          id: editId || `asset-${Date.now()}`,
           categories,
           title: title || (url ? "Link" : "Tanpa judul"),
           url,
           detail,
-        });
+        };
+        if (editId) {
+          const idx = task.assets.findIndex((a) => a.id === editId);
+          if (idx >= 0) task.assets[idx] = { ...task.assets[idx], ...payload };
+          else task.assets.push(payload);
+          WP.toast("Evidence diperbarui");
+        } else {
+          task.assets.push(payload);
+          WP.toast("Evidence ditambahkan");
+        }
         task.assets = WP.normalizeAssets(task.assets);
         persist();
-        WP.toast("Evidence ditambahkan");
         refreshAssetsUi();
       };
+
+      side.querySelectorAll(".asset-edit").forEach((btn) => {
+        btn.onclick = () => {
+          const task = state.tasks.find((x) => x.id === t.id);
+          const asset = WP.normalizeAssets(task.assets).find((a) => a.id === btn.dataset.assetId);
+          if (asset) fillAssetForm(asset);
+        };
+      });
 
       side.querySelectorAll(".asset-del").forEach((btn) => {
         btn.onclick = () => {
           const task = state.tasks.find((x) => x.id === t.id);
+          const editing = side.querySelector("#s-asset-edit-id").value;
           task.assets = WP.normalizeAssets(task.assets).filter((a) => a.id !== btn.dataset.assetId);
           persist();
-          WP.toast("Aset dihapus");
-          refreshAssetsUi();
+          WP.toast("Evidence dihapus");
+          if (editing === btn.dataset.assetId) {
+            refreshAssetsUi();
+          } else {
+            refreshAssetsUi();
+          }
         };
       });
 

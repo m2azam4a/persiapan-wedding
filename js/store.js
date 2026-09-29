@@ -122,13 +122,20 @@
       if (!assets.length && typeof s.notes === "string" && s.notes.trim()) {
         assets = migrateAssetsFromNotes(s.notes);
       }
+      // Jangan hilangkan catatan: kalau saved notes kosong tapi default/juga kosong, tetap string.
+      // Kalau saved punya notes (termasuk string kosong eksplisit dari user), pakai saved.
+      // Prefer notes non-kosong jika salah satu pihak punya isi.
+      let notes = typeof s.notes === "string" ? s.notes : d.notes || "";
+      if (!String(notes).trim() && typeof d.notes === "string" && d.notes.trim()) {
+        notes = d.notes;
+      }
       return {
         ...deepClone(d),
         start: Number.isFinite(s.start) ? s.start : d.start,
         end: Number.isFinite(s.end) ? s.end : d.end,
         status: s.status || d.status,
         progress: Number.isFinite(s.progress) ? s.progress : d.progress,
-        notes: typeof s.notes === "string" ? s.notes : d.notes,
+        notes,
         deps: Array.isArray(s.deps) ? s.deps : d.deps,
         assets,
       };
