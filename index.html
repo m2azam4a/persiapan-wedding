@@ -38,6 +38,31 @@
     <div style="height:16px"></div>
 
     <section class="card">
+      <h2>Aset & dokumen monitoring</h2>
+      <p class="view-only-note">
+        Diambil otomatis dari <strong>Catatan</strong> di Jadwal (link Google Drive / Sheet, grup WA, dll).
+        Taruh link di catatan pekerjaan supaya muncul di sini. Update progres file tetap di Drive — di app cukup simpan linknya.
+      </p>
+      <div id="assets-empty" class="muted small" hidden>Belum ada aset. Buka Jadwal → isi Catatan (boleh tempel link Drive) → Simpan.</div>
+      <div style="overflow:auto;max-height:360px">
+        <table class="table" id="assets-table">
+          <thead>
+            <tr>
+              <th>Jenis</th>
+              <th>Aset / link</th>
+              <th>Dari pekerjaan</th>
+              <th>Status pekerjaan</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div style="height:16px"></div>
+
+    <section class="card">
       <h2>Daftar pekerjaan</h2>
       <p class="view-only-note" id="list-hint">
         Pilih tampilan di bawah. “Siap dikerjakan” = pekerjaan yang tidak menunggu yang lain (semua syaratnya sudah Selesai), dan ikut berubah otomatis kalau status di Jadwal diubah.
@@ -188,6 +213,34 @@
         <div class="row"><span class="pill blocked">Terhambat</span> ${s.blocked}</div>
         <div class="small muted" style="margin-top:8px">Siap dikerjakan (tidak terhalang): ${readyN} · Jangan sampai telat: ${s.cp}</div>
       `;
+
+      const assets = WP.extractAssets(state);
+      const assetsEmpty = document.getElementById("assets-empty");
+      const assetsTb = document.querySelector("#assets-table tbody");
+      if (!assets.length) {
+        assetsEmpty.hidden = false;
+        assetsTb.innerHTML = "";
+      } else {
+        assetsEmpty.hidden = true;
+        assetsTb.innerHTML = assets
+          .map((a) => {
+            const linkCell = a.url
+              ? `<a class="asset-link" href="${a.url}" target="_blank" rel="noopener noreferrer">${a.label}</a>
+                 <div class="small muted" style="word-break:break-all">${a.url}</div>`
+              : `<strong>${a.label}</strong>${a.detail ? `<div class="small muted">${a.detail}</div>` : ""}`;
+            return `<tr>
+              <td><span class="pill asset-kind">${a.kind}</span></td>
+              <td>${linkCell}</td>
+              <td>
+                <div class="small"><strong>${a.wbs}</strong> · ${a.taskId}</div>
+                <div>${a.name}</div>
+              </td>
+              <td><span class="pill ${a.status}">${WP.statusLabel(a.status)}</span> · ${a.progress}%</td>
+              <td><a class="btn" href="gantt.html?task=${a.taskId}">Ke Jadwal</a></td>
+            </tr>`;
+          })
+          .join("");
+      }
 
       document.querySelectorAll("#list-filters button").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.filter === listFilter);
