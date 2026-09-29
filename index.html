@@ -40,24 +40,22 @@
     <section class="card">
       <h2>Aset & dokumen monitoring</h2>
       <p class="view-only-note">
-        Diambil otomatis dari <strong>Catatan</strong> di Jadwal (link Google Drive / Sheet, grup WA, dll).
-        Taruh link di catatan pekerjaan supaya muncul di sini. Update progres file tetap di Drive — di app cukup simpan linknya.
+        Evidence diisi di <strong>Jadwal</strong>. Satu pekerjaan boleh banyak evidence,
+        dan tiap evidence boleh punya <strong>beberapa label</strong>:
+        Catatan, WAG, Spreadsheet, Link Gdrive (centang multi).
       </p>
-      <div id="assets-empty" class="muted small" hidden>Belum ada aset. Buka Jadwal → isi Catatan (boleh tempel link Drive) → Simpan.</div>
-      <div style="overflow:auto;max-height:360px">
-        <table class="table" id="assets-table">
-          <thead>
-            <tr>
-              <th>Jenis</th>
-              <th>Aset / link</th>
-              <th>Dari pekerjaan</th>
-              <th>Status pekerjaan</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <div class="filter-tabs" id="asset-filters" role="tablist">
+        <button type="button" data-asset-cat="all" class="active">Semua</button>
+        <button type="button" data-asset-cat="catatan">Catatan</button>
+        <button type="button" data-asset-cat="wag">WAG</button>
+        <button type="button" data-asset-cat="spreadsheet">Spreadsheet</button>
+        <button type="button" data-asset-cat="gdrive">Link Gdrive</button>
       </div>
+      <p class="filter-count" id="asset-count"></p>
+      <div id="assets-empty" class="muted small" hidden>
+        Belum ada aset. Buka Jadwal → pilih pekerjaan → bagian “Aset monitoring” → pilih kategori → Tambah.
+      </div>
+      <div id="assets-by-cat"></div>
     </section>
 
     <div style="height:16px"></div>
@@ -110,9 +108,9 @@
     const state = WP.load();
     window.__WP_STATE = state;
     let listFilter = "siap";
+    let assetFilter = "all";
 
     function isReady(task, byId) {
-      // Bisa dikerjakan paralel / sekarang: semua yang harus selesai dulu sudah Selesai
       const deps = task.deps || [];
       if (!deps.length) return true;
       return deps.every((id) => {
@@ -125,8 +123,88 @@
       const byId = WP.taskMap(state.tasks);
       if (listFilter === "semua") return state.tasks.slice();
       if (listFilter === "selesai") return state.tasks.filter((t) => t.status === "done");
-      // siap: belum selesai, dan tidak terhalang dependency
       return state.tasks.filter((t) => t.status !== "done" && isReady(t, byId));
+    }
+
+    function renderAssets() {
+      const grouped = WP.assetsByCategory(state);
+      const cats =
+        assetFilter === "all"
+          ? WP.ASSET_CATEGORIES.slice()
+          : WP.ASSET_CATEGORIES.filter((c) => c.id === assetFilter);
+      const total = WP.listAssets(state).length;
+      const shown = cats.reduce((n, c) => n + (grouped[c.id] || []).length, 0);
+      document.getElementById("asset-count").textContent =
+        assetFilter === "all"
+          ? `Total aset: ${total}`
+          : `Ditampilkan: ${shown} · kategori ${WP.assetCategoryLabel(assetFilter)}`;
+
+      document.querySelectorAll("#asset-filters button").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.assetCat === assetFilter);
+        const id = btn.dataset.assetCat;
+        if (id === "all") btn.textContent = `Semua · ${total}`;
+        else {
+          const label = WP.assetCategoryLabel(id);
+          btn.textContent = `${label} · ${(grouped[id] || []).length}`;
+        }
+      });
+
+      const empty = document.getElementById("assets-empty");
+      const root = document.getElementById("assets-by-cat");
+      if (!shown) {
+        empty.hidden = false;
+        root.innerHTML = "";
+        return;
+      }
+      empty.hidden = true;
+      root.innerHTML = cats
+        .map((c) => {
+          const list = grouped[c.id] || [];
+          if (!list.length && assetFilter === "all") return "";
+          const rows = list.length
+            ? list
+                .map((a) => {
+                  const pills = (a.categories || [])
+                    .map((c) => `<span class="pill asset-kind">${WP.assetCategoryLabel(c)}</span>`)
+                    .join(" ");
+                  const link = a.url
+                    ? `<a class="asset-link" href="${a.url}" target="_blank" rel="noopener noreferrer">${a.title}</a>
+                       <div class="small muted" style="word-break:break-all">${a.url}</div>`
+                    : `<strong>${a.title}</strong>`;
+                  return `<tr>
+                    <td>
+                      <div class="row" style="gap:4px;flex-wrap:wrap;margin-bottom:4px">${pills}</div>
+                      ${link}${a.detail ? `<div class="small muted">${a.detail}</div>` : ""}
+                    </td>
+                    <td>
+                      <div class="small"><strong>${a.wbs}</strong> · ${a.taskId}</div>
+                      <div>${a.name}</div>
+                    </td>
+                    <td><span class="pill ${a.status}">${WP.statusLabel(a.status)}</span></td>
+                    <td><a class="btn" href="gantt.html?task=${a.taskId}">Ke Jadwal</a></td>
+                  </tr>`;
+                })
+                .join("")
+            : `<tr><td colspan="4" class="muted small">Belum ada di kategori ini.</td></tr>`;
+          return `
+            <div class="asset-cat-block">
+              <h3 class="asset-cat-title">${c.label} <span class="muted small">(${list.length})</span></h3>
+              <div style="overflow:auto">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Aset</th>
+                      <th>Dari pekerjaan</th>
+                      <th>Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>${rows}</tbody>
+                </table>
+              </div>
+            </div>`;
+        })
+        .join("");
     }
 
     function renderList() {
@@ -153,12 +231,16 @@
             listFilter === "semua" && t.status !== "done" && waiting.length
               ? `<div class="small muted">Menunggu: ${waiting.join(", ")}</div>`
               : "";
+          const nAssets = (t.assets || []).length;
+          const assetNote = nAssets
+            ? `<div class="small muted">${nAssets} aset monitoring</div>`
+            : "";
           return `<tr>
             <td><button type="button" class="btn-info" data-id="${t.id}">?</button></td>
             <td>${t.wbs}${t.cp ? ' <span class="pill cp">Jangan telat</span>' : ""}${
               ready && t.status !== "done" ? ' <span class="pill doing">Siap</span>' : ""
             }</td>
-            <td>${t.name}${waitNote}</td>
+            <td>${t.name}${waitNote}${assetNote}</td>
             <td class="small">${WP.labelDay(t.start)} → ${WP.labelDay(t.end)}</td>
             <td>${t.vendor}</td>
             <td><span class="pill ${t.status}">${WP.statusLabel(t.status)}</span></td>
@@ -184,7 +266,7 @@
           <div class="progress-bar" style="margin-top:8px"><span style="width:${pct}%"></span></div></div>
         <div class="card"><div class="stat-val">${s.done}/${s.total}</div><div class="stat-label">Pekerjaan selesai</div></div>
         <div class="card"><div class="stat-val">${readyN}</div><div class="stat-label">Siap dikerjakan sekarang</div></div>
-        <div class="card"><div class="stat-val">${s.blocked}</div><div class="stat-label">Terhambat</div></div>
+        <div class="card"><div class="stat-val">${s.assetCount || 0}</div><div class="stat-label">Aset monitoring</div></div>
       `;
 
       const names = state.settings.coupleNames || "Pasangan";
@@ -197,10 +279,10 @@
         .map((p) => {
           const list = state.tasks.filter((t) => t.phase === p);
           const done = list.filter((t) => t.status === "done").length;
-          const pct = list.length ? Math.round((done / list.length) * 100) : 0;
+          const pctP = list.length ? Math.round((done / list.length) * 100) : 0;
           return `<div class="phase-bar-row">
             <div class="name">${p} · ${state.phases[p]}</div>
-            <div class="track"><span style="width:${pct}%"></span></div>
+            <div class="track"><span style="width:${pctP}%"></span></div>
             <div class="pct">${done}/${list.length}</div>
           </div>`;
         })
@@ -213,34 +295,6 @@
         <div class="row"><span class="pill blocked">Terhambat</span> ${s.blocked}</div>
         <div class="small muted" style="margin-top:8px">Siap dikerjakan (tidak terhalang): ${readyN} · Jangan sampai telat: ${s.cp}</div>
       `;
-
-      const assets = WP.extractAssets(state);
-      const assetsEmpty = document.getElementById("assets-empty");
-      const assetsTb = document.querySelector("#assets-table tbody");
-      if (!assets.length) {
-        assetsEmpty.hidden = false;
-        assetsTb.innerHTML = "";
-      } else {
-        assetsEmpty.hidden = true;
-        assetsTb.innerHTML = assets
-          .map((a) => {
-            const linkCell = a.url
-              ? `<a class="asset-link" href="${a.url}" target="_blank" rel="noopener noreferrer">${a.label}</a>
-                 <div class="small muted" style="word-break:break-all">${a.url}</div>`
-              : `<strong>${a.label}</strong>${a.detail ? `<div class="small muted">${a.detail}</div>` : ""}`;
-            return `<tr>
-              <td><span class="pill asset-kind">${a.kind}</span></td>
-              <td>${linkCell}</td>
-              <td>
-                <div class="small"><strong>${a.wbs}</strong> · ${a.taskId}</div>
-                <div>${a.name}</div>
-              </td>
-              <td><span class="pill ${a.status}">${WP.statusLabel(a.status)}</span> · ${a.progress}%</td>
-              <td><a class="btn" href="gantt.html?task=${a.taskId}">Ke Jadwal</a></td>
-            </tr>`;
-          })
-          .join("");
-      }
 
       document.querySelectorAll("#list-filters button").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.filter === listFilter);
@@ -259,6 +313,7 @@
         btn.textContent = `${base} · ${n}`;
       });
 
+      renderAssets();
       renderList();
     }
 
@@ -267,6 +322,13 @@
       if (!btn) return;
       listFilter = btn.dataset.filter;
       render();
+    };
+
+    document.getElementById("asset-filters").onclick = (e) => {
+      const btn = e.target.closest("button[data-asset-cat]");
+      if (!btn) return;
+      assetFilter = btn.dataset.assetCat;
+      renderAssets();
     };
 
     render();

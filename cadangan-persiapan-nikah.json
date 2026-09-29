@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-09-29T13:36:53.319Z",
+  "exportedAt": "2026-09-29T13:52:32.067Z",
   "settings": {
     "coupleNames": "Azam & Pasangan",
     "weddingDate": "",
@@ -25,7 +25,8 @@
       "cp": true,
       "status": "done",
       "progress": 100,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "A02",
@@ -42,7 +43,19 @@
       "cp": true,
       "status": "done",
       "progress": 100,
-      "notes": "Scope:\nLamaran: Done\nNikah: Wajib | Rocket | 800 pax | Biaya kolektif"
+      "notes": "Scope:\nLamaran: Done\nNikah: Wajib | Rocket | 800 pax | Biaya kolektif",
+      "assets": [
+        {
+          "id": "a02-1",
+          "categories": [
+            "catatan"
+          ],
+          "category": "catatan",
+          "title": "Scope acara",
+          "url": "",
+          "detail": "Lamaran: Done\\nNikah: Wajib | Rocket | 800 pax | Biaya kolektif"
+        }
+      ]
     },
     {
       "id": "A03",
@@ -59,7 +72,19 @@
       "cp": false,
       "status": "done",
       "progress": 100,
-      "notes": "Hasil RACI sudah tercantum pada buku panduan dari WO Mas Satria: Berisi PIC setiap kegiatan pada saat hari-H."
+      "notes": "Hasil RACI sudah tercantum pada buku panduan dari WO Mas Satria: Berisi PIC setiap kegiatan pada saat hari-H.",
+      "assets": [
+        {
+          "id": "a03-1",
+          "categories": [
+            "catatan"
+          ],
+          "category": "catatan",
+          "title": "RACI di buku panduan WO Mas Satria",
+          "url": "",
+          "detail": "Berisi PIC setiap kegiatan pada saat hari-H"
+        }
+      ]
     },
     {
       "id": "A04",
@@ -77,7 +102,20 @@
       "cp": true,
       "status": "done",
       "progress": 100,
-      "notes": "Catatan Log sudah ada di grup WA Wedding dengan Azam dan Khalila sebagai narahubung ke Pihak vendor dan keluarga"
+      "notes": "Catatan Log sudah ada di grup WA Wedding dengan Azam dan Khalila sebagai narahubung ke Pihak vendor dan keluarga",
+      "assets": [
+        {
+          "id": "a04-1",
+          "categories": [
+            "catatan",
+            "wag"
+          ],
+          "category": "catatan",
+          "title": "Decision log di grup WA Wedding",
+          "url": "",
+          "detail": "Narahubung: Azam & Khalila ke vendor dan keluarga"
+        }
+      ]
     },
     {
       "id": "A05",
@@ -94,7 +132,39 @@
       "cp": false,
       "status": "done",
       "progress": 100,
-      "notes": "WA Grup Pengambil Keputusan: Sudah ada\nWA Grup Vendor: On progress\nDokumentasi drive:\nhttps://drive.google.com/drive/folders/1qHsZY7qj8GjYwPeo6_ZGtt6zw0UmgQcI?usp=sharing"
+      "notes": "WA Grup Pengambil Keputusan: Sudah ada\nWA Grup Vendor: On progress\nDokumentasi drive:\nhttps://drive.google.com/drive/folders/1qHsZY7qj8GjYwPeo6_ZGtt6zw0UmgQcI?usp=sharing",
+      "assets": [
+        {
+          "id": "a05-1",
+          "categories": [
+            "wag"
+          ],
+          "category": "wag",
+          "title": "WA Grup Pengambil Keputusan",
+          "url": "",
+          "detail": "Sudah ada"
+        },
+        {
+          "id": "a05-2",
+          "categories": [
+            "wag"
+          ],
+          "category": "wag",
+          "title": "WA Grup Vendor",
+          "url": "",
+          "detail": "On progress"
+        },
+        {
+          "id": "a05-3",
+          "categories": [
+            "gdrive"
+          ],
+          "category": "gdrive",
+          "title": "Folder dokumentasi Drive",
+          "url": "https://drive.google.com/drive/folders/1qHsZY7qj8GjYwPeo6_ZGtt6zw0UmgQcI?usp=sharing",
+          "detail": ""
+        }
+      ]
     },
     {
       "id": "A06",
@@ -111,7 +181,19 @@
       "cp": false,
       "status": "done",
       "progress": 100,
-      "notes": "Link: https://docs.google.com/spreadsheets/d/1s_q_7dwGUCYzSJvdS_Vc6iKuStXhj9b0qOMXZy8P3d8/edit?usp=sharing"
+      "notes": "Link: https://docs.google.com/spreadsheets/d/1s_q_7dwGUCYzSJvdS_Vc6iKuStXhj9b0qOMXZy8P3d8/edit?usp=sharing",
+      "assets": [
+        {
+          "id": "a06-1",
+          "categories": [
+            "spreadsheet"
+          ],
+          "category": "spreadsheet",
+          "title": "Risk register + assumptions log",
+          "url": "https://docs.google.com/spreadsheets/d/1s_q_7dwGUCYzSJvdS_Vc6iKuStXhj9b0qOMXZy8P3d8/edit?usp=sharing",
+          "detail": ""
+        }
+      ]
     },
     {
       "id": "A07",
@@ -128,7 +210,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "A08",
@@ -146,7 +229,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "B01",
@@ -163,7 +247,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "B02",
@@ -180,7 +265,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "B03",
@@ -199,7 +285,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "B04",
@@ -216,7 +303,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "B05",
@@ -233,7 +321,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "B06",
@@ -250,7 +339,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "B07",
@@ -268,7 +358,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "B08",
@@ -285,7 +376,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "C01",
@@ -302,7 +394,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "C02",
@@ -320,7 +413,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "C03",
@@ -337,7 +431,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "C04",
@@ -355,7 +450,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "C05",
@@ -373,7 +469,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "C06",
@@ -391,7 +488,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D01",
@@ -408,7 +506,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D02",
@@ -426,7 +525,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D03",
@@ -444,7 +544,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D04",
@@ -462,7 +563,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D05",
@@ -479,7 +581,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D06",
@@ -499,7 +602,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D07",
@@ -516,7 +620,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D08",
@@ -533,7 +638,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D09",
@@ -550,7 +656,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D10",
@@ -567,7 +674,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D11",
@@ -585,7 +693,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "D12",
@@ -602,7 +711,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E01",
@@ -620,7 +730,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E02",
@@ -638,7 +749,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E03",
@@ -655,7 +767,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E04",
@@ -673,7 +786,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E05",
@@ -691,7 +805,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E06",
@@ -708,7 +823,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E07",
@@ -725,7 +841,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E08",
@@ -743,7 +860,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E09",
@@ -761,7 +879,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E10",
@@ -778,7 +897,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E11",
@@ -795,7 +915,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E12",
@@ -812,7 +933,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E13",
@@ -829,7 +951,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E14",
@@ -846,7 +969,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E15",
@@ -864,7 +988,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E16",
@@ -881,7 +1006,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E17",
@@ -899,7 +1025,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E18",
@@ -917,7 +1044,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E19",
@@ -935,7 +1063,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E20",
@@ -952,7 +1081,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E21",
@@ -969,7 +1099,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E22",
@@ -986,7 +1117,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E23",
@@ -1003,7 +1135,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E24",
@@ -1020,7 +1153,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E25",
@@ -1042,7 +1176,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "E26",
@@ -1060,7 +1195,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F01",
@@ -1077,7 +1213,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F02",
@@ -1094,7 +1231,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F03",
@@ -1112,7 +1250,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F04",
@@ -1130,7 +1269,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F05",
@@ -1148,7 +1288,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F06",
@@ -1165,7 +1306,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F07",
@@ -1183,7 +1325,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F08",
@@ -1200,7 +1343,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F09",
@@ -1218,7 +1362,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F10",
@@ -1236,7 +1381,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F11",
@@ -1253,7 +1399,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F12",
@@ -1271,7 +1418,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F13",
@@ -1288,7 +1436,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F14",
@@ -1306,7 +1455,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F15",
@@ -1324,7 +1474,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "F16",
@@ -1342,7 +1493,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G01",
@@ -1359,7 +1511,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G02",
@@ -1377,7 +1530,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G03",
@@ -1394,7 +1548,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G04",
@@ -1411,7 +1566,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G05",
@@ -1428,7 +1584,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G06",
@@ -1445,7 +1602,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G07",
@@ -1462,7 +1620,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G08",
@@ -1479,7 +1638,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G09",
@@ -1497,7 +1657,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G10",
@@ -1514,7 +1675,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G11",
@@ -1532,7 +1694,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G12",
@@ -1550,7 +1713,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "G13",
@@ -1567,7 +1731,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H01",
@@ -1586,7 +1751,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H02",
@@ -1603,7 +1769,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H03",
@@ -1620,7 +1787,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H04",
@@ -1637,7 +1805,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H05",
@@ -1655,7 +1824,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H06",
@@ -1673,7 +1843,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H07",
@@ -1690,7 +1861,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H08",
@@ -1707,7 +1879,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H09",
@@ -1725,7 +1898,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H10",
@@ -1743,7 +1917,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H11",
@@ -1761,7 +1936,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "H12",
@@ -1780,7 +1956,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "I01",
@@ -1798,7 +1975,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "I02",
@@ -1816,7 +1994,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "I03",
@@ -1834,7 +2013,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "I04",
@@ -1852,7 +2032,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "I05",
@@ -1869,7 +2050,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "I06",
@@ -1888,7 +2070,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "I07",
@@ -1905,7 +2088,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "I08",
@@ -1923,7 +2107,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "I09",
@@ -1943,7 +2128,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J01",
@@ -1961,7 +2147,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J02",
@@ -1979,7 +2166,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J03",
@@ -1996,7 +2184,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J04",
@@ -2013,7 +2202,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J05",
@@ -2031,7 +2221,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J06",
@@ -2049,7 +2240,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J07",
@@ -2066,7 +2258,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J08",
@@ -2084,7 +2277,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J09",
@@ -2103,7 +2297,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "J10",
@@ -2121,7 +2316,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "K01",
@@ -2140,7 +2336,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "K02",
@@ -2158,7 +2355,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "K03",
@@ -2176,7 +2374,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "K04",
@@ -2193,7 +2392,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "K05",
@@ -2211,7 +2411,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "K06",
@@ -2229,7 +2430,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "K07",
@@ -2247,7 +2449,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "K08",
@@ -2265,7 +2468,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "L01",
@@ -2283,7 +2487,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "L02",
@@ -2300,7 +2505,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "L03",
@@ -2319,7 +2525,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "L04",
@@ -2338,7 +2545,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "L05",
@@ -2356,7 +2564,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "L06",
@@ -2373,7 +2582,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "L07",
@@ -2390,7 +2600,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "L08",
@@ -2408,7 +2619,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M01",
@@ -2426,7 +2638,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M02",
@@ -2443,7 +2656,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M03",
@@ -2462,7 +2676,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M04",
@@ -2480,7 +2695,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M05",
@@ -2499,7 +2715,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M06",
@@ -2517,7 +2734,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M07",
@@ -2535,7 +2753,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M08",
@@ -2554,7 +2773,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M09",
@@ -2573,7 +2793,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M10",
@@ -2592,7 +2813,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M11",
@@ -2610,7 +2832,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M12",
@@ -2628,7 +2851,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "M13",
@@ -2646,7 +2870,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N01",
@@ -2663,7 +2888,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N02",
@@ -2681,7 +2907,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N03",
@@ -2699,7 +2926,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N04",
@@ -2716,7 +2944,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N05",
@@ -2734,7 +2963,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N06",
@@ -2751,7 +2981,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N07",
@@ -2768,7 +2999,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N08",
@@ -2785,7 +3017,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N09",
@@ -2802,7 +3035,8 @@
       "cp": false,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N10",
@@ -2820,7 +3054,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     },
     {
       "id": "N11",
@@ -2838,7 +3073,8 @@
       "cp": true,
       "status": "todo",
       "progress": 0,
-      "notes": ""
+      "notes": "",
+      "assets": []
     }
   ],
   "daily": [

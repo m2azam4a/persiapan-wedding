@@ -302,6 +302,42 @@
         .map((id) => state.tasks.find((x) => x.id === id))
         .filter(Boolean);
       const succs = state.tasks.filter((x) => (x.deps || []).includes(t.id));
+      if (!Array.isArray(t.assets)) t.assets = [];
+      const assets = WP.normalizeAssets(t.assets);
+      const catChecks = WP.ASSET_CATEGORIES.map(
+        (c) =>
+          `<label class="asset-cat-check"><input type="checkbox" name="s-asset-cat" value="${c.id}" ${
+            c.id === "catatan" ? "checked" : ""
+          }/> ${c.label}</label>`
+      ).join("");
+
+      const assetsListHtml = assets.length
+        ? assets
+            .map(
+              (a) => `
+          <div class="asset-edit-row" data-asset-id="${a.id}">
+            <div class="row" style="gap:6px;align-items:flex-start;flex-wrap:nowrap">
+              <div style="flex:1;min-width:0">
+                <div class="row" style="gap:4px;flex-wrap:wrap;margin-bottom:4px">
+                  ${(a.categories || [])
+                    .map((c) => `<span class="pill asset-kind">${WP.assetCategoryLabel(c)}</span>`)
+                    .join("")}
+                </div>
+                <div style="font-size:13px"><strong>${a.title}</strong></div>
+                ${a.detail ? `<div class="small muted">${a.detail}</div>` : ""}
+                ${
+                  a.url
+                    ? `<a class="small asset-link" href="${a.url}" target="_blank" rel="noopener noreferrer" style="word-break:break-all">${a.url}</a>`
+                    : ""
+                }
+              </div>
+              <button type="button" class="btn btn-ghost asset-del" data-asset-id="${a.id}" title="Hapus">✕</button>
+            </div>
+          </div>`
+            )
+            .join("")
+        : `<p class="small muted" style="margin:0">Belum ada evidence. Tambah di bawah — boleh pilih lebih dari satu label.</p>`;
+
       side.innerHTML = `
         <button class="btn btn-ghost close" type="button" id="side-close">Tutup</button>
         <div class="row" style="align-items:flex-start;gap:8px;margin-bottom:6px">
@@ -336,10 +372,36 @@
           <label class="field">Tanggal selesai di kalender
             <input type="date" id="s-end-abs" value="${endAbs}" ${state.settings.weddingDate ? "" : "disabled"} />
           </label>
-          <label class="field">Catatan
-            <textarea id="s-notes" rows="3">${t.notes || ""}</textarea>
+          <label class="field">Catatan bebas (opsional)
+            <textarea id="s-notes" rows="2">${t.notes || ""}</textarea>
           </label>
         </div>
+
+        <div class="asset-panel">
+          <h4 style="margin:14px 0 6px;font-size:13px">Evidence / aset monitoring</h4>
+          <p class="small muted" style="margin:0 0 8px">
+            Satu pekerjaan boleh banyak evidence. Tiap evidence: centang satu atau lebih label
+            (Catatan, WAG, Spreadsheet, Link Gdrive).
+          </p>
+          <div id="s-assets-list" class="asset-edit-list">${assetsListHtml}</div>
+          <div class="asset-add-box">
+            <div class="field">
+              <span class="field-label">Label (boleh lebih dari satu)</span>
+              <div class="asset-cat-checks">${catChecks}</div>
+            </div>
+            <label class="field">Judul singkat
+              <input type="text" id="s-asset-title" placeholder="Contoh: Folder dokumentasi + grup WA" />
+            </label>
+            <label class="field">Link (opsional)
+              <input type="url" id="s-asset-url" placeholder="https://drive.google.com/..." />
+            </label>
+            <label class="field">Keterangan (opsional)
+              <input type="text" id="s-asset-detail" placeholder="Contoh: Sudah ada / On progress" />
+            </label>
+            <button class="btn" type="button" id="s-asset-add" style="width:100%">+ Tambah evidence</button>
+          </div>
+        </div>
+
         <div style="height:10px"></div>
         <div class="small muted">Harus selesai dulu: ${
           preds.length
@@ -375,6 +437,53 @@
           if (rel) focusOnTask(rel);
         };
       });
+
+      function refreshAssetsUi() {
+        const task = state.tasks.find((x) => x.id === t.id);
+        openSide(task);
+        markSelected(task);
+      }
+
+      side.querySelector("#s-asset-add").onclick = () => {
+        const task = state.tasks.find((x) => x.id === t.id);
+        const title = side.querySelector("#s-asset-title").value.trim();
+        const url = side.querySelector("#s-asset-url").value.trim();
+        const detail = side.querySelector("#s-asset-detail").value.trim();
+        const categories = Array.from(side.querySelectorAll('input[name="s-asset-cat"]:checked')).map(
+          (el) => el.value
+        );
+        if (!categories.length) {
+          WP.toast("Centang minimal 1 label");
+          return;
+        }
+        if (!title && !url && !detail) {
+          WP.toast("Isi minimal judul atau link");
+          return;
+        }
+        if (!Array.isArray(task.assets)) task.assets = [];
+        task.assets.push({
+          id: `asset-${Date.now()}`,
+          categories,
+          title: title || (url ? "Link" : "Tanpa judul"),
+          url,
+          detail,
+        });
+        task.assets = WP.normalizeAssets(task.assets);
+        persist();
+        WP.toast("Evidence ditambahkan");
+        refreshAssetsUi();
+      };
+
+      side.querySelectorAll(".asset-del").forEach((btn) => {
+        btn.onclick = () => {
+          const task = state.tasks.find((x) => x.id === t.id);
+          task.assets = WP.normalizeAssets(task.assets).filter((a) => a.id !== btn.dataset.assetId);
+          persist();
+          WP.toast("Aset dihapus");
+          refreshAssetsUi();
+        };
+      });
+
       side.querySelector("#s-apply").onclick = () => {
         const task = state.tasks.find((x) => x.id === t.id);
         let start = Number(side.querySelector("#s-start").value);
@@ -390,6 +499,7 @@
         task.status = side.querySelector("#s-status").value;
         task.progress = clamp(Number(side.querySelector("#s-prog").value) || 0, 0, 100);
         task.notes = side.querySelector("#s-notes").value;
+        task.assets = WP.normalizeAssets(task.assets);
         if (task.status === "done") task.progress = 100;
         state.tasks = WP.rescheduleFrom(state.tasks, task.id, state.settings);
         persist();

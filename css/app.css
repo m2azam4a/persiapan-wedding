@@ -417,7 +417,7 @@ label.field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; 
   position: fixed;
   top: 64px;
   right: 16px;
-  width: 340px;
+  width: min(380px, calc(100vw - 24px));
   max-height: calc(100vh - 88px);
   overflow: auto;
   background: var(--surface);
@@ -625,7 +625,59 @@ label.field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; 
   color: #334155;
   white-space: normal;
   text-align: left;
-  max-width: 140px;
+  font-size: 11px;
+}
+.asset-cat-block { margin-top: 14px; }
+.asset-cat-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.asset-panel {
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+  padding-top: 4px;
+}
+.asset-edit-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+  max-height: 180px;
+  overflow: auto;
+}
+.asset-edit-row {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  background: #f8fafc;
+}
+.asset-add-box {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+}
+.asset-cat-checks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 4px;
+}
+.asset-cat-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
 }
 .view-only-note {
   font-size: 12px;
