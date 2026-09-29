@@ -202,6 +202,117 @@
     return map[status] || status;
   }
 
+  /** Ambil aset monitoring dari catatan pekerjaan (link Drive/Sheet, grup WA, dll). */
+  function extractAssets(state) {
+    const urlRe = /https?:\/\/[^\s<>"')\]]+/gi;
+    const items = [];
+    const seen = new Set();
+
+    function push(item) {
+      const key = `${item.taskId}|${item.kind}|${item.url || item.label}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      items.push(item);
+    }
+
+    function kindFromUrl(url) {
+      const u = url.toLowerCase();
+      if (u.includes("docs.google.com/spreadsheets") || u.includes(".xlsx") || u.includes(".xls")) {
+        return "Excel / Google Sheet";
+      }
+      if (u.includes("docs.google.com/document")) return "Google Docs";
+      if (u.includes("drive.google.com")) return "Folder / file Google Drive";
+      if (u.includes("chat.whatsapp.com") || u.includes("wa.me")) return "Grup / chat WhatsApp";
+      return "Link";
+    }
+
+    function labelFromUrl(url, kind) {
+      if (kind === "Excel / Google Sheet") return "Sheet monitoring (Google Sheets)";
+      if (kind === "Folder / file Google Drive") return "Folder dokumentasi Google Drive";
+      if (kind === "Google Docs") return "Dokumen Google Docs";
+      return kind;
+    }
+
+    (state.tasks || []).forEach((t) => {
+      const notes = (t.notes || "").trim();
+      if (!notes) return;
+      const before = items.length;
+
+      const urls = notes.match(urlRe) || [];
+      urls.forEach((url) => {
+        const clean = url.replace(/[.,;]+$/, "");
+        const kind = kindFromUrl(clean);
+        push({
+          kind,
+          label: labelFromUrl(clean, kind),
+          url: clean,
+          detail: "",
+          taskId: t.id,
+          wbs: t.wbs,
+          name: t.name,
+          status: t.status,
+          progress: t.progress,
+        });
+      });
+
+      notes.split(/\r?\n/).forEach((line) => {
+        const L = line.trim();
+        if (!L) return;
+        if (/https?:\/\//i.test(L)) return;
+
+        const wa = L.match(/^(WA\s*Grup[^:]*|Grup\s*WA[^:]*)\s*[:：]\s*(.+)$/i);
+        if (wa) {
+          push({
+            kind: "Grup WhatsApp",
+            label: wa[1].trim(),
+            url: "",
+            detail: wa[2].trim(),
+            taskId: t.id,
+            wbs: t.wbs,
+            name: t.name,
+            status: t.status,
+            progress: t.progress,
+          });
+          return;
+        }
+
+        if (/buku panduan|excel|spreadsheet|sheet master|decision log|catatan log/i.test(L)) {
+          push({
+            kind: "Dokumen / catatan",
+            label: L.length > 90 ? L.slice(0, 87) + "…" : L,
+            url: "",
+            detail: "",
+            taskId: t.id,
+            wbs: t.wbs,
+            name: t.name,
+            status: t.status,
+            progress: t.progress,
+          });
+        }
+      });
+
+      // Catatan penting tanpa link/WA (mis. scope) — hanya jika belum ada aset dari task ini
+      if (items.length === before) {
+        const first = notes.split(/\r?\n/).map((x) => x.trim()).filter(Boolean)[0] || notes;
+        push({
+          kind: "Catatan di pekerjaan",
+          label: first.length > 90 ? first.slice(0, 87) + "…" : first,
+          url: "",
+          detail: notes.length > first.length ? "Ada detail di catatan Jadwal" : "",
+          taskId: t.id,
+          wbs: t.wbs,
+          name: t.name,
+          status: t.status,
+          progress: t.progress,
+        });
+      }
+    });
+
+    const order = { done: 0, doing: 1, blocked: 2, todo: 3 };
+    items.sort((a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9) || String(a.wbs).localeCompare(String(b.wbs), undefined, { numeric: true }));
+    return items;
+  }
+
   window.WP = {
     KEY,
     load,
@@ -218,5 +329,6 @@
     toast,
     deepClone,
     statusLabel,
+    extractAssets,
   };
 })();
